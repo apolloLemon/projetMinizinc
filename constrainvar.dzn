@@ -1,1 +1,2 @@
-a=2;
+a=2; %if this .dzn is loaded for constrainvar
+%the output will be defined by this
