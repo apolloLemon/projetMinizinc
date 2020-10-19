@@ -3,11 +3,18 @@ include "globals.mzn";
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 %Variables
+
+% Equations
+% Separated into four lists
 array[1..16,1..3] of var 0..9: number; %this will hold n1 op  n2 = n3   numbers
 array[1..4,1..4] of var 0..9: number2; %this will hold n1 op2 n2 = n3n4 numbers
 
 array[1..16] of var 1..3: operation; %this will hold n1 op   n2 = n3   operations
 array[1..4] of var 1..3: operation2; %this will hold n1 op2  n2 = n3n4 operations
+% For the 'order' of the Equations:
+% First left verticals, then right verticals
+% Aaaand that's as much as I've got so far (see corner constraint for details)
+
 
 %Predicates
 
@@ -30,6 +37,7 @@ constraint forall % . op . = ..
   (i in 1..4)
   (op(number2[i,1],number2[i,2],number2[i,3],operation2[i]));
 
-
+% TODO Corner Constraint/Predicate
+% TODO Linker Constraint/Predicate
 
 solve satisfy;
