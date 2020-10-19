@@ -7,10 +7,10 @@ Amina, Clemance, Khaoula, Marwa, Matthew
 
 ### Problems
 1. nQueens on an nxn chessboard
-  2. using integers
-  2. using integers and removing symetries
-  2. using booleans
-  2. using booleans and removing symetries
+  1. using integers
+  1. using integers and removing symetries
+  1. using booleans
+  1. using booleans and removing symetries
 1. Garam _a sudoku-like with equations_
 1. Rikudo _finding paths through hexagonal maps_
 
