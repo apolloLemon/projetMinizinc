@@ -1,5 +1,6 @@
 % A big problem with this code is the corner cases (see cornercase.img)
 % with this model, single digits of operation results can't be individually from the .dzn
+% also it's missing top corners....
 
 include "globals.mzn";
 
