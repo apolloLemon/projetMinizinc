@@ -6,16 +6,15 @@ include "globals.mzn";
 
 % Equations
 % Separated into four lists
-array[1..16,1..3] of var 0..9: number; %this will hold n1 op  n2 = n3   numbers
-array[1..4,1..4] of var 0..9: number2; %this will hold n1 op2 n2 = n3n4 numbers
+array[1..12,1..3] of var 0..9: number; %this will hold n1 op  n2 = n3   numbers
+array[1..8,1..4] of var 0..9: number2; %this will hold n1 op2 n2 = n3n4 numbers
 % two digit numbers need to have individual variables for each digit
 
 % operations -> int (see Operation Predicate)
-array[1..16] of var 1..3: operation; %this will hold n1 op   n2 = n3    operations
-array[1..4] of var 1..3: operation2; %this will hold n1 op2  n2 = n3n4  operations
+array[1..12] of var 1..3: operation; %this will hold n1 op   n2 = n3    operations
+array[1..8] of var 1..3: operation2; %this will hold n1 op2  n2 = n3n4  operations
 % For the 'order' of the Equations:
-% First left verticals, then right verticals
-% Aaaand that's as much as I've got so far (see corner constraint for details)
+% ..wait
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -37,10 +36,10 @@ predicate op (var int:x, var int:y, var int:r, var 1..3 :o)=
 
 % All Operations Are True
 constraint forall % . op . = .
-  (i in 1..16)
+  (i in 1..12)
   (op(number[i,1],number[i,2],number[i,3],operation[i]));
 constraint forall % . op . = ..
-  (i in 1..4)
+  (i in 1..8)
   (op(number2[i,1],number2[i,2],number2[i,3],operation2[i]));
 
 
