@@ -6,13 +6,13 @@
 Amina, Clemance, Khaoula, Marwa, Matthew
 
 ### Problems
-l. nQueens on an nxn chessboard
-  l. using integers
-  l. using integers and removing symetries
-  l. using booleans
-  l. using booleans and removing symetries
-l. Garam _a sudoku-like with equations_
-l. Rikudo _finding paths through hexagonal maps_
+1. nQueens on an nxn chessboard
+  1. using integers
+  2. using integers and removing symetries
+  3. using booleans
+  4. using booleans and removing symetries
+2. Garam _a sudoku-like with equations_
+3. Rikudo _finding paths through hexagonal maps_
 
 ## Index
 ### Files
