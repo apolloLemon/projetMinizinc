@@ -56,8 +56,4 @@ constraint forall % . op . = ..
 % the Equations that link the loops
 % thus some number(2) must be the same
 
-% TODO Data -> Variables
-% this might be purely done in the .dzn
-% but might require a constraint/predicate solution here
-
 solve satisfy;
