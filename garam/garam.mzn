@@ -57,3 +57,7 @@ constraint forall % . op . = ..
 % thus some number(2) must be the same
 
 solve satisfy;
+
+% TODO Output
+% We need to be able to easily
+% see all the Equations, as a list maybe
