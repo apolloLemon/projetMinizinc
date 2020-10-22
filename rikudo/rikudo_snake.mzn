@@ -18,14 +18,14 @@ predicate NextTo(array[1..3] of var int: I,array[1..3] of var int: J) =
     var int: iz = I[3], var int: jz = J[3]
   } in abs(ix - jx) + abs(iy - jy) + abs(iz - jz) = 2; % Hex Distance = 1
 
+%Valid Coordinate
+predicate inrange(var int: x) = 
+  abs(x)<=1; %we need a formula for these values, 1 is for size 7
+
 predicate ValidCoord(array[1..3] of var int: xyz)=
-  let{%s use cube coordinates
-    var int: x = xyz[1],
-    var int: y = xyz[2],
-    var int: z = xyz[3],
-  } in x+y+z = 0
-  /\   abs(x)<=3 /\ abs(y)<=3 /\ abs(z)<=3 %we need a formula for these values
-/\true; %we might add other things here
+    sum(xyz) = 0
+/\  forall(i in 1..3)(inrange(xyz[i]))
+/\  true; %we might add other things here
   
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
