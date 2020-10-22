@@ -54,3 +54,9 @@ constraint forall (i,j in 1..n where j-i=1)( % successif numbers i and j
 % in Rikudo some hexcells share a mandatory path between them
 
 solve satisfy;
+
+output	["rikudo snake:\n"] ++
+	[	show(snake[i,j]) ++ "\t"++
+	 	if j = 3 then "\n" else "" endif
+	|	i in 1..n, j in 1..3
+	];
