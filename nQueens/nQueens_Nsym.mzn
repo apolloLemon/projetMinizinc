@@ -12,9 +12,14 @@ constraint forall([
 
 constraint Q[1] <= n/2; % this constraint removes vertical symetry
 
+
+%%% After testing, these don't work on size 4..
+%%% But the idea started for odd grids
 %these might remove a couple rotations
-constraint Q[n div 2] != 1;
-constraint Q[n div 2] != n;
+%constraint Q[n div 2] != 1;
+%constraint forall(i in 1..n where i >= n div 2)(Q[i]!=1); % generalise the 2 above?
+%constraint Q[n div 2] != n;
+%constraint forall(i in 1..n where i <= n div 2)(Q[i]!=n);
 %constraint Q[n]       != n/2;%this doesn't improve anything, but was supposed to be the last
 
 
