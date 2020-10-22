@@ -12,4 +12,10 @@ constraint forall([
 
 constraint Q[1] <= n/2; % this constraint removes vertical symetry
 
+%these might remove a couple rotations
+constraint Q[n div 2] != 1;
+constraint Q[n div 2] != n;
+%constraint Q[n]       != n/2;%this doesn't improve anything, but was supposed to be the last
+
+
 solve satisfy;
