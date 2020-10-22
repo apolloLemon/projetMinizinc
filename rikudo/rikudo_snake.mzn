@@ -12,15 +12,27 @@ array[1..n,1..3] of var int: snake; %array of coordinates
 
 % TODO NextTo
 predicate NextTo(array[1..3] of var int: I,array[1..3] of var int: J) = 
-  false; % TODO
+  true; % TODO
 
-predicate PossibleCoord(array[1..3] of var int: xyz)=
-  xyz[1]+xyz[2]+xyz[3]==0 %using cube coordinates
+predicate ValidCoord(array[1..3] of var int: xyz)=
+  let{%s use cube coordinates
+    var int: x = xyz[1],
+    var int: y = xyz[2],
+    var int: z = xyz[3],
+  } in x+y+z = 0
+  /\   abs(x)<=3 /\ abs(y)<=3 /\ abs(z)<=3 %we need a formula for these values
 /\true; %we might add other things here
   
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Constraints
+
+% All Coordinates Are Valid
+constraint forall (i in 1..n)(
+  let {
+    array[1..3] of var int: xyz = [snake[i,j] | j in 1..3]
+  } in ValidCoord(xyz)
+);
 
 % All Numbers Are Next To Each Other
 constraint forall (i,j in 1..n where j-1==1)( % successif numbers i and j
