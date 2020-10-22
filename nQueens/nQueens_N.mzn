@@ -1,3 +1,4 @@
+%apollolemon
 include "globals.mzn";
 
 % Can we place n queens on an n by n board ?
@@ -23,3 +24,9 @@ constraint forall([
 ]);
 
 solve satisfy;
+
+output	[show(n)]++[" queens :\n"] ++
+	[	if fix(Queen2row[i]) = j then "Q " else ". " endif ++
+	 	if j = n then "\n" else "" endif
+	|	i, j in 1..n
+	];
