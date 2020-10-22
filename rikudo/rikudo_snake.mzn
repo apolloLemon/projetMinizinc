@@ -58,14 +58,15 @@ constraint forall (i,j in 1..n where j-i=1)( % successif numbers i and j
 % TODO All Valid Coordinates Are Used
 % We need the coordinates to be on the board
 % and for all cells of the board to be used
+% 0,0,0 isn't valid
 
-% TODO All Tunnels Are Used
+% TODO All Tunnels Are Used (low Priority)
 % in Rikudo some hexcells share a mandatory path between them
 
 solve satisfy;
 
 output	["rikudo snake:\n"] ++
 	[	show(snake[i,j]) ++ "\t"++
-	 	if j = 3 then "\n" else "" endif
+	 	if j = 3 then "xyz of "++show(i)++"\n" else "" endif
 	|	i in 1..n, j in 1..3
 	];
