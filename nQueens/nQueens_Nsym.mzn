@@ -10,4 +10,6 @@ constraint forall([
   | i,j in 1..n where i!=j 
 ]);
 
+constraint Q[1] <= n/2; % this constraint removes vertical symetry
+
 solve satisfy;
