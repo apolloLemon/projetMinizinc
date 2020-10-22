@@ -6,7 +6,8 @@ array[1..n] of var 1..n: Q;
 constraint alldifferent(Q);
 
 constraint forall([ 
-  abs(Q[j]-Q[i])!=abs(j-i) 
+%  abs(Q[j]-Q[i])!=abs(j-i)
+  Q[i] + i != Q[j] + j /\ Q[i] - i != Q[j] - j %more efficient than abs() method
   | i,j in 1..n where i!=j 
 ]);
 

@@ -18,7 +18,8 @@ constraint alldifferent(Q);
 % and the chessboard is a cartesian coordinate system
 % we want to avoid slopes of +-1
 constraint forall([ 
-  abs(Q[j]-Q[i])!=abs(j-i) 
+%  abs(Q[j]-Q[i])!=abs(j-i)
+  Q[i] + i != Q[j] + j /\ Q[i] - i != Q[j] - j %more efficient than abs() method
   | i,j in 1..n where i!=j
 ]);
 
