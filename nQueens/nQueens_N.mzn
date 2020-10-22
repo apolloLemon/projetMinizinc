@@ -19,7 +19,6 @@ constraint alldifferent(Queen2row);
 % we want to avoid slopes of +-1
 constraint forall([ 
   abs(Queen2row[j]-Queen2row[i])!=abs(j-i) 
-%  | i,j in 1..n where j>i %the where here constrains search space might be symetry breaking
   | i,j in 1..n where i!=j
 ]);
 
