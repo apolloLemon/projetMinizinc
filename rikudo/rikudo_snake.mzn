@@ -5,6 +5,7 @@ int:n; %size of the problem/board
 array[1..n,1..3] of var int: snake; %array of coordinates
 % successif numbers are NextTo each other on the board
 % we can choose to make the coordinates the problem variables
+% we can use cube coordinates
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Predicats
@@ -13,6 +14,11 @@ array[1..n,1..3] of var int: snake; %array of coordinates
 predicate NextTo(array[1..3] of var int: I,array[1..3] of var int: J) = 
   false; % TODO
 
+predicate PossibleCoord(array[1..3] of var int: xyz)=
+  xyz[1]+xyz[2]+xyz[3]==0 %using cube coordinates
+/\true; %we might add other things here
+  
+  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Constraints
 
