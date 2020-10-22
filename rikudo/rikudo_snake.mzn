@@ -1,7 +1,8 @@
 %apolloLemon
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Variables
-int:n; %size of the problem/board
+int:r; %size of problem
+int:n; %size of array
 array[1..n,1..3] of var int: snake; %array of coordinates
 % successif numbers are NextTo each other on the board
 % we can choose to make the coordinates the problem variables
@@ -9,6 +10,11 @@ array[1..n,1..3] of var int: snake; %array of coordinates
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Predicats
+
+% ProblemSize
+predicate ValidProblem(var int: range, var int: numbers) =
+  sum(i in 1..range)(i*6) = numbers;
+
 
 % NextTo
 predicate NextTo(array[1..3] of var int: I,array[1..3] of var int: J) = 
@@ -20,7 +26,7 @@ predicate NextTo(array[1..3] of var int: I,array[1..3] of var int: J) =
 
 %Valid Coordinate
 predicate inrange(var int: x) = 
-  abs(x)<=1; %we need a formula for these values, 1 is for size 7
+  abs(x)<=r; %
 
 predicate ValidCoord(array[1..3] of var int: xyz)=
     sum(xyz) = 0
@@ -30,6 +36,9 @@ predicate ValidCoord(array[1..3] of var int: xyz)=
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Constraints
+
+% The Problem is Valid
+constraint ValidProblem(r,n);
 
 % All Coordinates Are Valid
 constraint forall (i in 1..n)(
