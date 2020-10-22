@@ -10,9 +10,13 @@ array[1..n,1..3] of var int: snake; %array of coordinates
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Predicats
 
-% TODO NextTo
+% NextTo
 predicate NextTo(array[1..3] of var int: I,array[1..3] of var int: J) = 
-  true; % TODO
+  let{%s use cube coordinates
+    var int: ix = I[1], var int: jx = J[1],
+    var int: iy = I[2], var int: jy = J[2],
+    var int: iz = I[3], var int: jz = J[3]
+  } in abs(ix - jx) + abs(iy - jy) + abs(iz - jz) = 2; % Hex Distance = 1
 
 predicate ValidCoord(array[1..3] of var int: xyz)=
   let{%s use cube coordinates
@@ -35,7 +39,7 @@ constraint forall (i in 1..n)(
 );
 
 % All Numbers Are Next To Each Other
-constraint forall (i,j in 1..n where j-1==1)( % successif numbers i and j
+constraint forall (i,j in 1..n where j-i=1)( % successif numbers i and j
   let {
     array[1..3] of var int: I = [snake[i,x] | x in 1..3], % coords of i
     array[1..3] of var int: J = [snake[j,x] | x in 1..3], % coords of j
