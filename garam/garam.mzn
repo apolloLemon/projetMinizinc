@@ -1,7 +1,7 @@
 %apolloLemon
 include "globals.mzn";
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Variables
 
 % Equations
@@ -17,7 +17,7 @@ array[1..8] of var 1..3: operation2; %this will hold n1 op2  n2 = n3n4  operatio
 % ..wait
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Predicates
 
 % Operation Predicate
@@ -37,32 +37,44 @@ predicate op2 (var int:x, var int:y, var int:r, var int:s, var 1..3 :o)=
   else false
   endif;
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Constraints
 
 % All Operations Are True
-constraint forall % . op . = .
-  (i in 1..12)
-  (op(number[i,1],number[i,2],number[i,3],operation[i]));
-constraint forall % . op . = ..
+%constraint forall % . op . = .
+%  (i in 1..12)
+%  (op(number[i,1],number[i,2],number[i,3],operation[i]));
+%constraint forall % . op . = ..
+%  (i in 1..8)
+%  (op2(number2[i,1],number2[i,2],number2[i,3],number2[i,4],operation2[i]));
+
+
+% Corner 
+constraint forall
   (i in 1..8)
-  (op2(number2[i,1],number2[i,2],number2[i,3],number2[i,4],operation2[i]));
+  (
+    if i mod 2 = 1 then
+      number[i,1]=number2[i,1] /\ number[i,3]=number2[i+1,1]
+    else
+      number[i,3]=number2[i,4] /\ number[i,1]=number2[i-1,4]
+    endif
+  );
   
+% Silly Linker
+constraint number2[2,2] = number[9,1];
+constraint number2[3,2] = number[9,3];
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%TODO
+constraint number2[6,2] = number[10,1];
+constraint number2[7,2] = number[10,3];
 
-% TODO Corner Constraint/Predicate
-% What are Corners?
-% in each loop the equations are connected at the corners
-% thus some number(2) must be the same
+constraint number[2,2] = number[11,1];
+constraint number[5,2] = number[11,3];
 
-% TODO Linker Constraint/Predicate
-% What are the Linkers?
-% the Equations that link the loops
-% thus some number(2) must be the same
-
+constraint number[4,2] = number[12,1];
+constraint number[7,2] = number[12,3];
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 solve satisfy;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 output [
   show(number[i,1]) ++
