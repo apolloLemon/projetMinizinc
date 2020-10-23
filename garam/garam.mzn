@@ -41,12 +41,12 @@ predicate op2 (var int:x, var int:y, var int:r, var int:s, var 1..3 :o)=
 %Constraints
 
 % All Operations Are True
-%constraint forall % . op . = .
-%  (i in 1..12)
-%  (op(number[i,1],number[i,2],number[i,3],operation[i]));
-%constraint forall % . op . = ..
-%  (i in 1..8)
-%  (op2(number2[i,1],number2[i,2],number2[i,3],number2[i,4],operation2[i]));
+constraint forall % . op . = .
+  (i in 1..12)
+  (op(number[i,1],number[i,2],number[i,3],operation[i]));
+constraint forall % . op . = ..
+  (i in 1..8)
+  (op2(number2[i,1],number2[i,2],number2[i,3],number2[i,4],operation2[i]));
 
 
 % Corner 
@@ -72,6 +72,11 @@ constraint number[5,2] = number[11,3];
 
 constraint number[4,2] = number[12,1];
 constraint number[7,2] = number[12,3];
+
+% . op . = >0 .
+% the decadigit of 4 digit operations can't be 0
+constraint forall(i in 1..8)(number2[i,3]>0);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 solve satisfy;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
