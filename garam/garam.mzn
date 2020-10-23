@@ -25,9 +25,15 @@ array[1..8] of var 1..3: operation2; %this will hold n1 op2  n2 = n3n4  operatio
 % o: 1:+ 2:- 3:*
 %(this would be cool if it was a char code)
 predicate op (var int:x, var int:y, var int:r, var 1..3 :o)=
-  if o=1 then r=x+y
+  if     o=1 then r=x+y
   elseif o=2 then r=x-y
   elseif o=3 then r=x*y
+  else false
+  endif;
+predicate op2 (var int:x, var int:y, var int:r, var int:s, var 1..3 :o)=
+  if     o=1 then r*10+s=x+y
+  elseif o=2 then r*10+s=x-y
+  elseif o=3 then r*10+s=x*y
   else false
   endif;
 
@@ -40,8 +46,8 @@ constraint forall % . op . = .
   (op(number[i,1],number[i,2],number[i,3],operation[i]));
 constraint forall % . op . = ..
   (i in 1..8)
-  (op(number2[i,1],number2[i,2],number2[i,3],operation2[i]));
-
+  (op2(number2[i,1],number2[i,2],number2[i,3],number2[i,4],operation2[i]));
+  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %TODO
@@ -58,6 +64,28 @@ constraint forall % . op . = ..
 
 solve satisfy;
 
-% TODO Output
-% We need to be able to easily
-% see all the Equations, as a list maybe
+output [
+  show(number[i,1]) ++
+  
+  if fix(operation[i])=1 then "+"
+  elseif fix(operation[i])=2 then "-"
+  elseif fix(operation[i])=3 then "*"
+  else "o" endif ++
+  
+  show(number[i,2]) ++
+  "=" ++
+  show(number[i,3]) ++ "\n"
+  | i in 1..12
+] ++ [
+  show(number2[i,1]) ++
+  
+  if fix(operation2[i])=1 then "+"
+  elseif fix(operation2[i])=2 then "-"
+  elseif fix(operation2[i])=3 then "*"
+  else "o" endif ++
+  
+  show(number2[i,2]) ++
+  "=" ++
+  show(number2[i,3]) ++ show(number2[i,4]) ++"\n"
+  | i in 1..8
+];
