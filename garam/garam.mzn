@@ -13,9 +13,14 @@ array[1..8,1..4] of var 0..9: number2; %this will hold n1 op2 n2 = n3n4 numbers
 % operations -> int (see Operation Predicate)
 array[1..12] of var 1..3: operation; %this will hold n1 op   n2 = n3    operations
 array[1..8] of var 1..3: operation2; %this will hold n1 op2  n2 = n3n4  operations
-% For the 'order' of the Equations:
-% ..wait
 
+% For the 'order' of the Equations:
+% in number/operation we have a list of 1..8
+% the top then bottom of the 'squares' in left->right top->bottom order
+% AND number/operatoin 9.12 we have top->bottom then left->right of the links between squares
+% in number2/operation2 we have a list of 1..8
+% left->right in squares ordered left->right top->bottom
+% see 0.dzn and images
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Predicates
