@@ -24,6 +24,14 @@ predicate NextTo(array[1..3] of var int: I,array[1..3] of var int: J) =
     var int: iz = I[3], var int: jz = J[3]
   } in abs(ix - jx) + abs(iy - jy) + abs(iz - jz) = 2; % Hex Distance = 1
 
+% Different
+predicate Different(array[1..3] of var int: I,array[1..3] of var int: J) = 
+  let{%s use cube coordinates
+    var int: ix = I[1], var int: jx = J[1],
+    var int: iy = I[2], var int: jy = J[2],
+    var int: iz = I[3], var int: jz = J[3]
+  } in (ix != jx)  \/ (iy != jy) \/ (iz != jz); % all coords are differ
+
 %Valid Coordinate
 predicate inrange(var int: x) = 
   abs(x)<=r; %
@@ -55,10 +63,15 @@ constraint forall (i,j in 1..n where j-i=1)( % successif numbers i and j
   } in NextTo(I,J) % NextTo each other on the board
 );
 
-% TODO All Valid Coordinates Are Used
-% We need the coordinates to be on the board
-% and for all cells of the board to be used
-% 0,0,0 isn't valid
+% TODO All Coordinates Are Different
+constraint forall (i,j in 1..n where i<j)( %i<j to only check each couple once
+           %we could not check neighbours
+  let {
+    array[1..3] of var int: I = [snake[i,x] | x in 1..3], % coords of i
+    array[1..3] of var int: J = [snake[j,x] | x in 1..3], % coords of j
+  } in Different(I,J) % Different to each other
+);
+
 
 % TODO All Tunnels Are Used (low Priority)
 % in Rikudo some hexcells share a mandatory path between them

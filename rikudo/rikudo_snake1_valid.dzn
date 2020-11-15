@@ -1,0 +1,11 @@
+r=1; %radius of tesselated grid
+n=6; %how many numbers
+snake = array2d(1..n,1..3,[
+ %x,y,z, %n
+  0,-1,1, %1
+  1,-1,0, %2
+  1,0,-1, %3
+  0,1,-1, %4
+  -1,1,0, %5
+  -1,0,1  %6
+]);
