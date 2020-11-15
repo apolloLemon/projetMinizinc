@@ -65,7 +65,7 @@ constraint forall (i,j in 1..n where j-i=1)( % successif numbers i and j
   } in NextTo(I,J) % NextTo each other on the board
 );
 
-% TODO All Coordinates Are Different
+% All Coordinates Are Different
 constraint forall (i,j in 1..n where i<j)( %i<j to only check each couple once
            %we could not check neighbours
   let {
