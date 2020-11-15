@@ -39,6 +39,8 @@ predicate inrange(var int: x) =
 predicate ValidCoord(array[1..3] of var int: xyz)=
     sum(xyz) = 0
 /\  forall(i in 1..3)(inrange(xyz[i]))
+% 0,0,0 isn't valid
+/\ let { array[1..3] of var int: zero = [0,0,0] } in Different(xyz,zero)
 /\  true; %we might add other things here
   
   
