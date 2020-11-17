@@ -86,12 +86,14 @@ constraint forall (i,j,k in 1..n where j-i=1 /\ k-j=1)( % successif numbers i an
       let {
         array[1..3] of var int: A = [tunnels[s,1,x] | x in 1..3], % coords of A
         array[1..3] of var int: B = [tunnels[s,2,x] | x in 1..3], % coords of B
-      } in ( true
-          if ( not Different(J,A) ) then 
-            (not Different(I,B) \/ not Different(K,B) )else true endif
-      ) \/ (
+      } in (
+      if (Different(J,A) /\  Different(J,B)) then true else (
+          (if ( not Different(J,A) ) then 
+            (not Different(I,B) \/ not Different(K,B) )else false endif
+          ) \/ (
           if ( not Different(J,B) ) then 
-            (not Different(I,A) \/ not Different(K,A) ) else true endif
+            (not Different(I,A) \/ not Different(K,A) ) else false endif)
+      )endif
       )
   )
 );
