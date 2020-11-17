@@ -76,19 +76,26 @@ constraint forall (i,j in 1..n where i<j)( %i<j to only check each couple once
 );
 
 
-% All Tunnels Are Used (low Priority)
-constraint forall (i,j,k in 1..n where j-i=1 /\ k-j=1)( % successif numbers i and j
+% All Tunnels Are Used
+% if in a sequence of 3 numbers the middle one is at the opening of a tunnel
+% then either the one before or after is at the other opening of the tunnel
+
+% we loop over the snake in chunks of 3, a "part of a snake"
+constraint forall (i,j,k in 1..n where j-i=1 /\ k-j=1)( % successif numbers i, j and k
   let {
     array[1..3] of var int: I = [snake[i,x] | x in 1..3], % coords of i
     array[1..3] of var int: J = [snake[j,x] | x in 1..3], % coords of j
     array[1..3] of var int: K = [snake[k,x] | x in 1..3], % coords of k
   } in forall(s in 1..t)(
-      let {
+      let { %for each part of the snake we see if it is near any tunnels
         array[1..3] of var int: A = [tunnels[s,1,x] | x in 1..3], % coords of A
         array[1..3] of var int: B = [tunnels[s,2,x] | x in 1..3], % coords of B
       } in (
       if (Different(J,A) /\  Different(J,B)) then true else (
-          (if ( not Different(J,A) ) then 
+      % if a part of the snake is next to a tunnel it must go through
+      % we know that if the middle J of the part is at a tunnel extremity
+      % thus I or J must be at the other end of the tunnel
+         (if ( not Different(J,A) ) then 
             (not Different(I,B) \/ not Different(K,B) )else false endif
           ) \/ (
           if ( not Different(J,B) ) then 
@@ -102,7 +109,7 @@ constraint forall(s in 1..t)(
   let {
     array[1..3] of var int: A = [tunnels[s,1,x] | x in 1..3], % coords of A
     array[1..3] of var int: B = [tunnels[s,2,x] | x in 1..3], % coords of B
-  } in ValidCoord(A) /\ ValidCoord(B)
+  } in ValidCoord(A) /\ ValidCoord(B) /\ NextTo(A,B)
 );
 
 solve satisfy;
