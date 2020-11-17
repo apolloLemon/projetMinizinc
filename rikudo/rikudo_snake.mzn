@@ -8,6 +8,8 @@ array[1..n,1..3] of var int: snake; %array of coordinates
 % we can choose to make the coordinates the problem variables
 % we can use cube coordinates
 
+int:t; % number of tunnels
+array[1..t,1..2,1..3] of var int: tunnels; %array of couples of coordinates
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Predicats
 
@@ -41,8 +43,7 @@ predicate ValidCoord(array[1..3] of var int: xyz)=
 /\  forall(i in 1..3)(inrange(xyz[i]))
 % 0,0,0 isn't valid
 /\ let { array[1..3] of var int: zero = [0,0,0] } in Different(xyz,zero)
-/\  true; %we might add other things here
-  
+/\  true; %we might add other things here    
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Constraints
@@ -75,8 +76,32 @@ constraint forall (i,j in 1..n where i<j)( %i<j to only check each couple once
 );
 
 
-% TODO All Tunnels Are Used (low Priority)
-% in Rikudo some hexcells share a mandatory path between them
+% All Tunnels Are Used (low Priority)
+constraint forall (i,j,k in 1..n where j-i=1 /\ k-j=1)( % successif numbers i and j
+  let {
+    array[1..3] of var int: I = [snake[i,x] | x in 1..3], % coords of i
+    array[1..3] of var int: J = [snake[j,x] | x in 1..3], % coords of j
+    array[1..3] of var int: K = [snake[k,x] | x in 1..3], % coords of k
+  } in forall(s in 1..t)(
+      let {
+        array[1..3] of var int: A = [tunnels[s,1,x] | x in 1..3], % coords of A
+        array[1..3] of var int: B = [tunnels[s,2,x] | x in 1..3], % coords of B
+      } in ( true
+          if ( not Different(J,A) ) then 
+            (not Different(I,B) \/ not Different(K,B) )else true endif
+      ) \/ (
+          if ( not Different(J,B) ) then 
+            (not Different(I,A) \/ not Different(K,A) ) else true endif
+      )
+  )
+);
+% All Tunnels are Valid
+constraint forall(s in 1..t)(
+  let {
+    array[1..3] of var int: A = [tunnels[s,1,x] | x in 1..3], % coords of A
+    array[1..3] of var int: B = [tunnels[s,2,x] | x in 1..3], % coords of B
+  } in ValidCoord(A) /\ ValidCoord(B)
+);
 
 solve satisfy;
 
