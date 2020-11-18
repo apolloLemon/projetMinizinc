@@ -1,5 +1,5 @@
 include "globals.mzn";
-include "../mulxor.mzn";
+include "mulxor.mzn";
 
 % Can we place n queens on an n by n board ?
 % without any queens threatening each other ?
