@@ -1,3 +1,4 @@
+%apolloLemon
 include "globals.mzn";
 include "mulxor.mzn";
 

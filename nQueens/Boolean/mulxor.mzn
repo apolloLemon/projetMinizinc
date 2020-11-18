@@ -1,3 +1,4 @@
+%apolloLemon
 %these predicates makes sur arrays have specific numbers of trues
 
 %special case of the mulmor(x,1) which is the xor
