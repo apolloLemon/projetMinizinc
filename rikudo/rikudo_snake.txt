@@ -1,0 +1,5 @@
+/!\ r and n are proportionnal ::>  r = sum(i in 1..n)(i*6)
+/!\ look/use .dzn templates 
+This is to make sure size/shape of the problem corresponds to possible rikudo.fr problems
+
+This model works with all size rikudos (esay to hardest and even smaller ones)
