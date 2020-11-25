@@ -1,0 +1,20 @@
+10,11c10,11
+< 2	-2	0	xyz of 10
+< 3	-2	-1	xyz of 11
+---
+> 3	-2	-1	xyz of 10
+> 2	-2	0	xyz of 11
+23,28c23,28
+< -2	2	0	xyz of 23
+< -3	3	0	xyz of 24
+< -3	2	1	xyz of 25
+< -3	1	2	xyz of 26
+< -2	0	2	xyz of 27
+< -2	1	1	xyz of 28
+---
+> -3	3	0	xyz of 23
+> -3	2	1	xyz of 24
+> -2	2	0	xyz of 25
+> -2	1	1	xyz of 26
+> -3	1	2	xyz of 27
+> -2	0	2	xyz of 28
