@@ -30,6 +30,11 @@ The board for this puzzle is formed with hexagons, it can be constructed by plac
 
 The game's name is inspired by Naruto, a story from Japan. A character of the story is the Rikudo Sennin, or Sage of the Six Paths (SixWay Sage). This is possibly because from one hexagonal cell, you have 6 availiable paths. I am pleased to say, our model has it's own avatar, an antagonist in this story: known as Omochimaru the snake lord.
 
+Another Prerequesite before we go forward, is the Cube Coordinate system in our hexagonal grid.
+2D Hexagons and 3D Cubes share a number of sides, and thanks to this parallel we can imagine our hexagons as cubes in 3D space, and give each hexagon a distinct and coherant set of (x,y,z) coordinates.
+For a set of coordinates to be valid the sum of x y z must equal = 0, and there is a simple distance function 
+distance(i,j) = abs(ix - jx) + abs(iy - jy) + abs(iz - jz)
+
 
 
 	There are two main ways to see the Rikudo problem, in my opinion. Associating to each cell a numeber, or associating to each number a cell. Because of my knowledge of the cube coordinate system for Hexagon Grids, and it's distance function, I decided to explore a solution to use those rules as constraints on the cells associated to each number.
@@ -38,7 +43,7 @@ For all linear programing, we have variables and constraints. We have decided ou
 
 The constraints on these coordinates to find a solution for a Rikudo isn't at first obvious but with predicates our constraints are easier to understand.
 
-In this model we have two vague groups of predicates, those that make sure we're looking in the right direction and two that are more specific to the rules of Rikudo. But all predicates define rules of Cube Coordinates in a Hexgrid, and by using  
+In this model we have two vague groups of predicates, those that make sure we're looking in the right direction and two that are more specific to the rules of Rikudo. But all predicates define rules of Cube Coordinates in a Hexgrid, and by using these predicates together we can model the rikudo in this language.
 
 ValidProblem is a predicate that makes sure the number of cells and the layers of the grid are coherent. All proposed Rikudos comme on pseudo-Hexagonal grids of hexagons, with a Layer to Cell ratio defined by:
 The number of cells and layers are also limits on our search space, and the size of our constraint loops.
@@ -53,6 +58,8 @@ However the distance function uses the absolute value, which isn't solved for qu
 
 We will constrain for some of these predicates to be true in general, and for some to be true for specific cases.
 First the overall problem must be valid.
+
+All the coordinates of the snake must be valid.
 
 We want out snake to be continuous; If two indexes of the array are "next to" each other, then the associated coordiates must also be next to each other.
 
