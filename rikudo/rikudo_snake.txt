@@ -1,5 +1,101 @@
 /!\ r and n are proportionnal ::>  r = sum(i in 1..n)(i*6)
 /!\ look/use .dzn templates 
-This is to make sure size/shape of the problem corresponds to possible rikudo.fr problems
+This is to make sure size/shape of the problem corresponds to possible Rikudo.fr problems
 
-This model works with all size rikudos (esay to hardest and even smaller ones)
+This model works with all size Rikudos (esay to hardest and even smaller ones)
+
+
+
+2 ways to look at Rikudo: cell -> num  and num -> cell
+cell -> num implies if there are n cells with n possibilities for numbers, so at largest, an n * n search space
+num -> cell implies 
+
+
+
+
+
+
+
+my definitions:
+snake = array of sets of coordinates, for two consecutive indexes the sets of coords are neighbours.
+layer = radius on hexgrid
+hexgrid = pseudo-hexagon shape of tiled hexagons. One central hexagon, each layer adds 6*layerNumber hexagons, tiled around the lower layer.
+cell = hexagon of the hexgrid, their coordinates are the variables of the problem and they each have a different number in them
+tunnel = couple of neighbouring cells which must have consecutive numbers in them.
+
+
+Rikudo is a puzzle game which involves placing numbers in cells similarly to Sudoku or Garam but also has aspects of a labyrinth. The main rule for Rikudo is: you must place all different numbers in all the cells, and two sequential numbers are next to each other on the board. 
+
+The board for this puzzle is formed with hexagons, it can be constructed by placing a central hexagon and tiling successive layers of hexagons around it. The easiest problems have 3 layers for a total of 36 cells, while the hardest have 6 layers and a total of 126 cells. One could also consider problems of smaller and larger sizes.
+
+The game's name is inspired by Naruto, a story from Japan. A character of the story is the Rikudo Sennin, or Sage of the Six Paths (SixWay Sage). This is possibly because from one hexagonal cell, you have 6 availiable paths. I am pleased to say, our model has it's own avatar, an antagonist in this story: known as Omochimaru the snake lord.
+
+
+
+	There are two main ways to see the Rikudo problem, in my opinion. Associating to each cell a numeber, or associating to each number a cell. Because of my knowledge of the cube coordinate system for Hexagon Grids, and it's distance function, I decided to explore a solution to use those rules as constraints on the cells associated to each number.
+
+For all linear programing, we have variables and constraints. We have decided our variables are the cells associated to each number. Specifically, our variables are the x y z coordinates of each cell associated to a number of the series. This is how our model earns it's snake name: our snake is an array from 1 to n of set of coordinates.
+
+The constraints on these coordinates to find a solution for a Rikudo isn't at first obvious but with predicates our constraints are easier to understand.
+
+In this model we have two vague groups of predicates, those that make sure we're looking in the right direction and two that are more specific to the rules of Rikudo. But all predicates define rules of Cube Coordinates in a Hexgrid, and by using  
+
+ValidProblem is a predicate that makes sure the number of cells and the layers of the grid are coherent. All proposed Rikudos comme on pseudo-Hexagonal grids of hexagons, with a Layer to Cell ratio defined by:
+The number of cells and layers are also limits on our search space, and the size of our constraint loops.
+
+inrange is an example of a predicate that uses one of those crucial numbers defined by ValidProblem: the max absolute value of any coordinate is the number of layers.
+
+ValidCoord is simply a predicate that makes sure a set of coordinates is valid in the context of Cube Coordiantes (sum(xyz)=0), are within the given board (all coords in range) and because Rikudo doesn't allow placing in the middle, we don't allow (0,0,0)
+
+Using the distance function of the Cube Coordinate system, we can define both NextTo and Different: nexto(a,b) => distance(a,b)=1 and different(a,b) => distance(a,b)!=0.
+However the distance function uses the absolute value, which isn't solved for quickly. The Different predicate can also be expressed as "not all coordinates are equal", which is much faster to compute.
+
+
+We will constrain for some of these predicates to be true in general, and for some to be true for specific cases.
+First the overall problem must be valid.
+
+We want out snake to be continuous; If two indexes of the array are "next to" each other, then the associated coordiates must also be next to each other.
+
+We don't want our snake eating it's self, or going throught the same cell more than once, so all coordinates of the snake must be different.
+
+Tunnels are another big aspect when it comes to constraints. Checking a tunnel is valid using existing predicates is easy: both extremities but be adjacent valid coordinates. 
+Making sure the snake goes through the tunnels is a bit harder, but our model trys to simply say: if part of a snake is near a tunnel, then it goes through the tunnel.
+
+
+
+
+	A major benefit of modeling this way, we can change the shape of the rikudo board mainly be redefining the predicates and subsequently adapting the variables and constraints. If the board was made of titles squares for example: we could use a cartesian coordinate system and distance function to implement our predicates, and adjust the snake and constraints to use sets of (x,y) as variables.
+
+
+	Now with our model finding the correct solutions for any given rikudo, we can now ask how the solver finds solutions to our model, and how difficult the different aspects of the problem are.
+
+
+	A first question to consider, is how does our model differenciate from a model which uses the alternative strategy of finding a value for each cell. In the broadest terms, the other strategy has n cells with n possible values. A search space of n squared.
+When expressing our search space, is it easier to use the radius, or number of layers, when calculating the search space. 
+	number of cells = n = sum(i in 1..r)(i*6).
+The snake is n long, each section of the snake has three variables in -r..r. Which translates to a search space of size: 
+	(sum(i in 1..r)(i*6)) * 3 * (2r+1)
+
+	This means that on a broad level, the snake strategy starts off with a smaller space to search in. Further constraints will reduce the search space for both types of models, but the snake seems to have an advantage.
+
+
+	An interesting aspect of a problem is: how long it takes to check a solution is correct. Sudoku is an example of a hard problem for which possible solutions are fast and easy to check. On the other hand, one can easily write a program that halts, but it is impossible to write a program that can determine whether any program halts or not. Because of this, it is interesting to verify how long the solver checks a valid and false solution in our model.
+
+
+	Finding a solution using no constraints, meaning: no given numbers and no tunnels. There are two types of constraints in our model for the Rikudo: the constraints and predicates that define what the Rikudo is, and the given numbers and tunnels that force the player towards a single solution. The question here is how many possible Rikudo games are there, and how fast does our model find one without guidance.
+On a one layer Rikudo, one can easily count 12 ways to wrap the snake around the center: starting from each of the 6 cells, and going in both directions.
+On a two layer Rikudo, we find analogous solutions by simply wraping the snake around the core, after completing the first layer 6 options are availiable to wraping around the second layer: 3 cells are accesible and both directions are valid. Added to these solutions are those using a strategy to fill all the layers as you go around the core. 
+
+
+
+	The way you normally play Rikudo, is by filling in the gaps in a solution, so one way to test the model is to give it different types of gaps to fill. The two extremes seem to be: one large gap in the middle and evenly spaced small gaps all along the snake. Real instances of the problem seem to be in between: randomly scattered gaps of varying sizes, separating small islands of solved cell sequences.
+Intuitively, the size of the gaps is more important than the number of gaps. And this is verified by the two extreme examples.
+
+
+	Because of a constraint on our coordinates, inherited from cube coordinate system: for each cell, one of it's three coordinates is redundant. Indeed, for a set of coordinates to be valid, their sum must equal zero. 
+Cube Coordinates for a hexgrid => x + y + z = 0
+Thus, if we know x and y, we know z. The solver can find the missing z for a solved Rikudo, in the same time it checks a solution is valid (times are within margin of error, only milliseconds appart).
+This has an implication on the size of our whole search space; So far we've assumed all 3 coordinates define the size, but we only really need to search using two coordinates. The search space is possibly 2/3 the size initially predicted.
+
+
+	One of the reasons I find this model interesting, is because I see the same problem as that of proteine folding. A proteine starts it's life a long sequence of chemicals, copied from DNA. To take action in an organism, a proteine must take on a certain shape, with specific chemicals in specific locations. Similarly our snake must take on the shape of our board, go through the tunnels and some values must be in specific places. The tunnels and the shape of the board are analagous to the shape of the proteine and it's active sites, while one can imagine numbering the chemicals in a proteine and thus see the equivilance between a given number of a Rikudo board, and constraining the position of a chemical in the final shape of the proteine.

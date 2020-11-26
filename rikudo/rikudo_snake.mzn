@@ -32,7 +32,15 @@ predicate Different(array[1..3] of var int: I,array[1..3] of var int: J) =
     var int: ix = I[1], var int: jx = J[1],
     var int: iy = I[2], var int: jy = J[2],
     var int: iz = I[3], var int: jz = J[3]
-  } in (ix != jx)  \/ (iy != jy) \/ (iz != jz); % all coords are differ
+  } in (ix != jx)  \/ (iy != jy) \/ (iz != jz); % a coords is different
+
+% Different
+%predicate Different(array[1..3] of var int: I,array[1..3] of var int: J) = 
+%  let{%s use cube coordinates
+%    var int: ix = I[1], var int: jx = J[1],
+%    var int: iy = I[2], var int: jy = J[2],
+%    var int: iz = I[3], var int: jz = J[3]
+%  } in abs(ix - jx) + abs(iy - jy) + abs(iz - jz) != 0; % Hex Distance != 0 => different
 
 %Valid Coordinate
 predicate inrange(var int: x) = 
