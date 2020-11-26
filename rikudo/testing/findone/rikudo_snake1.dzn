@@ -1,0 +1,12 @@
+r=1; %radius of tesselated grid
+n=6; %how many numbers
+t=0; % zero tunnels
+snake = array2d(1..n,1..3,[
+ %x,y,z, %n
+  0,_,_, %1
+  _,_,_, %2
+  _,_,_, %3
+  _,_,_, %4
+  _,_,_, %5
+  _,_,_  %6
+]);
