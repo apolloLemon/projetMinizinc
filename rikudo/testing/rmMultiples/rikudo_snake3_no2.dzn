@@ -1,0 +1,56 @@
+r=3; %radius of tesselated grid
+n=36; %how many numbers
+snake = array2d(1..n,1..3,[
+-1, 3, -2, %xyz of 1
+_, _, _, %xyz of 2
+0, 3, -3, %xyz of 3
+_, _, _, %xyz of 4
+2, 1, -3, %xyz of 5
+_, _, _, %xyz of 6
+3, 0, -3, %xyz of 7
+_, _, _, %xyz of 8
+2, -1, -1, %xyz of 9
+_, _, _, %xyz of 10
+3, -2, -1, %xyz of 11
+_, _, _, %xyz of 12
+2, -3, 1, %xyz of 13
+_, _, _, %xyz of 14
+0, -1, 1, %xyz of 15
+_, _, _, %xyz of 16
+1, 0, -1, %xyz of 17
+_, _, _, %xyz of 18
+0, 1, -1, %xyz of 19
+_, _, _, %xyz of 20
+-1, 2, -1, %xyz of 21
+_, _, _, %xyz of 22
+-2, 2, 0, %xyz of 23
+_, _, _, %xyz of 24
+-3, 2, 1, %xyz of 25
+_, _, _, %xyz of 26
+-2, 0, 2, %xyz of 27
+_, _, _, %xyz of 28
+-1, 0, 1, %xyz of 29
+_, _, _, %xyz of 30
+0, -2, 2, %xyz of 31
+_, _, _, %xyz of 32
+0, -3, 3, %xyz of 33
+_, _, _, %xyz of 34
+-2, -1, 3, %xyz of 35
+-3, 0, 3 %xyz of 36
+]);
+
+t=4;
+tunnels = array3d(1..t,1..2,1..3,[
+    0,-1,1,
+    1,-2,1,
+    
+    -1,1,0,
+    0,1,-1,
+    
+    0,3,-3,
+    1,2,-3,
+    
+    2,1,-3,
+    2,0,-2
+
+]);
